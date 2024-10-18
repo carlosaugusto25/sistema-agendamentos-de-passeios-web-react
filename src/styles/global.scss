@@ -1,0 +1,46 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --white: #ffffff;
+    
+    --gray-100: #f0f2f5;
+    --gray-500: #242424;
+
+    --blue-300: #0099DD;
+    --blue-500: #215ecf;
+    --blue-900: #063474;
+
+    --input: #FAFAFC;
+    --input-border: #E3E3E5;
+}
+
+p,h1,h2,h3,h4,h5,h6 {
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    cursor: pointer;
+}
+
+.rbc-event-content {
+    font-size: .75rem;
+
+    @media screen and (max-width: 1366px) {
+        font-size: .55rem;
+        font-weight: 600;
+    }
+}
+
+.rbc-show-more {
+    font-size: .75rem;
+
+    @media screen and (max-width: 1366px) {
+        font-size: .6rem;
+        font-weight: 600;
+    }
+}

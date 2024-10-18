@@ -1,0 +1,47 @@
+.buttonCreate {
+    height: 51px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #0796D3 0%, #53C0F0 68.65%);
+    font-family: Lexend;
+    font-weight: 500;
+    font-size: 16px;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 24px auto;
+    border: none;
+    cursor: pointer;
+}
+
+.buttonDelete {
+    height: 51px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #D30707 0%, #F05353 68.65%);
+    font-family: Lexend;
+    font-weight: 500;
+    font-size: 16px;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 24px auto;
+    border: none;
+    cursor: pointer;
+}
+
+.buttonCancel {
+    height: 51px;
+    border-radius: 8px;
+    background: #E7EEFB;
+    font-family: Lexend;
+    font-weight: 400;
+    font-size: 16px;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 24px auto;
+    border: none;
+    cursor: pointer;
+}

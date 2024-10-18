@@ -1,0 +1,97 @@
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(58.93% 69.94% at 50% 100%, var(--blue-300) 0%, var(--blue-500) 100%);
+
+    .content {
+        width: 25rem;
+        height: 25rem;
+        background-color: var(--white);
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        padding: 1.5rem;
+
+        @media screen and (max-width: 600px) {
+            width: 85%;
+
+        }
+
+        p {
+            font-family: Roboto;
+            color: var(--blue-500);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
+
+            .email {
+                width: 100%;
+                height: 2.5rem;
+                border-radius: 8px;
+                border: 1px solid var(--input-border);
+                background-color: var(--input);
+                font-family: Lexend;
+                font-size: 0.9rem;
+                font-weight: 400;
+                color: var(--blue-300);
+                padding: 0 1rem;
+                outline: none;
+            }
+
+            .inputAndIcon {
+                width: 100%;
+                height: 2.5rem;
+                border-radius: 8px;
+                border: 1px solid var(--input-border);
+                background-color: var(--input);
+                font-family: Lexend;
+                font-size: 0.9rem;
+                font-weight: 400;
+                color: var(--blue-300);
+                padding: 0 1rem;
+                outline: none;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+
+                .password {
+                    border: none;
+                    height: 2.5rem;
+                    width: 90%;
+                    background-color: var(--input);
+                    font-family: Lexend;
+                    font-size: 0.9rem;
+                    font-weight: 400;
+                    color: var(--blue-300);
+                    outline: none;
+                }
+            }
+
+            button {
+                width: 100%;
+                height: 2.5rem;
+                border-radius: 8px;
+                border: none;
+                background-color: var(--blue-300);
+                font-family: Roboto;
+                font-size: 1rem;
+                font-weight: 700;
+                color: var(--white);
+                padding: 0 1rem;
+            }
+        }
+    }
+}

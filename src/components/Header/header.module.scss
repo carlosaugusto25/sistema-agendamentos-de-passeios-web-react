@@ -1,0 +1,114 @@
+.container {
+    width: 100%;
+    height: 4.5rem;
+    background: radial-gradient(58.93% 69.94% at 50% 100%, var(--blue-300) 0%, var(--blue-500) 100%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3rem;
+
+    @media screen and (max-width: 1366px) {
+        height: 3rem;
+    }
+
+    @media screen and (max-width: 600px) {
+        padding: 0 1rem;
+        height: 2.5rem;
+    }
+
+    .title {
+        color: var(--white);
+        font-size: 2rem;
+    }
+
+    .logo {
+        @media screen and (max-width: 1366px) {
+            width: 7rem;
+        }
+        @media screen and (max-width: 600px) {
+            width: 5rem;
+            
+        }
+    }
+
+    .links {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 2rem;
+
+        
+
+        .link {
+            color: var(--white);
+            text-decoration: none;
+            font-family: Lexend;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: .5s;
+
+            &:hover {
+                filter: brightness(0.8);
+                transform: translateY(-5px);
+            }
+
+            @media screen and (max-width: 600px) {
+                display: none;
+            }
+        }
+
+        .userContainer {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+
+            p{
+                color: var(--white);
+                font-family: Lexend;
+                font-weight: 300;
+                font-size: 1rem;
+                margin-left: 2rem;
+
+                @media screen and (max-width: 600px) {
+                    font-size: .8rem;
+                }
+            }
+
+            .user {
+                color: var(--white);
+                font-size: 2.5rem;
+
+                @media screen and (max-width: 1366px) {
+                    font-size: 1.5rem;
+                }
+
+                @media screen and (max-width: 600px) {
+                    font-size: 1.2rem;
+                    
+                }
+            }
+    
+            .logout {
+                color: var(--white);
+                font-size: 1.5rem;
+                cursor: pointer;
+                transition: .5s;
+
+                &:hover {
+                    transform: translateY(-5px);
+                }
+
+                @media screen and (max-width: 600px) {
+                    font-size: 1.2rem;
+                    
+                }
+            }
+        }
+
+        
+    }
+    
+}
+

@@ -1,0 +1,16 @@
+.select {
+    width: 100%;
+    height: 2.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--input-border);
+    padding: 0 1rem;
+    font-family: Lexend;
+    font-weight: 500;
+    color: var(--blue-900);
+    background-color: var(--input);
+    outline: none;
+
+    .option {
+        color: var(--gray-300);
+    }
+}
