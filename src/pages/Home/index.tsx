@@ -208,8 +208,6 @@ export function Home() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    console.log(dataAppointments, appointment)
-
     const appointmentsFilter = useMemo(() => {
         return dataAppointments.map((item) => ({ ...item, data: item.data.filter((item) => item.speedboat_id === boatId) }))
     }, [boatId, dataAppointments])

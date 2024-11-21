@@ -1,0 +1,88 @@
+@import '../../styles/_functions.scss';
+
+.container {
+  width: 100%;
+  height: pxtorem(500px);
+  background: linear-gradient(
+    112.18deg,
+    rgba(242, 242, 242, 0.475) 0.18%,
+    rgba(176, 185, 198, 0.25) 94.9%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  @media screen and (max-width: 768px) {
+    height: auto;
+  }
+
+  .orangeDiv {
+    margin-top: pxtorem(-60px);
+    width: pxtorem(100px);
+    height: pxtorem(12px);
+    border-radius: pxtorem(6px);
+    background-color: var(--orange-primary);
+
+    @media screen and (max-width: 768px) {
+      margin-top: pxtorem(20px);
+    }
+  }
+
+  h2 {
+    font-family: 'Cinzel Decorative';
+    font-size: pxtorem(32px);
+    line-height: pxtorem(43.14px);
+    font-weight: 700;
+    color: var(--blue-solid);
+    margin: pxtorem(24px) 0 pxtorem(34px) 0;
+
+    @media screen and (max-width: 768px) {
+      font-size: pxtorem(24px);
+      line-height: pxtorem(32.35px);
+    }
+
+    img {
+      margin: 0 pxtorem(5px) pxtorem(10px);
+    }
+  }
+
+  .contentCarossel {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
+
+    .arrowButton {
+      border: none;
+      background-color: transparent;
+      outline: none;
+      @media screen and (max-width: 768px) {
+        width: pxtorem(24px);
+        height: pxtorem(24px);
+        margin-bottom: pxtorem(50px);
+      }
+      img {
+        transition: .3s ease-in-out;
+        border-radius: pxtorem(100px);
+
+        @media screen and (max-width: 768px) {
+          width: pxtorem(24px);
+          height: pxtorem(24px);
+        }
+        &:hover {
+         opacity: .7;
+        }
+      }
+      
+    }
+    
+    .arrow {
+      transform: scaleX(-1);
+    }
+  }
+}

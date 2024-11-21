@@ -23,6 +23,7 @@ export function SelectBoat({speedboat, setBoatSelected, ...rest}: SelectBoatProp
 
     useEffect(() => {
         getBoat();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     

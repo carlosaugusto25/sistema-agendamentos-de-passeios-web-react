@@ -18,10 +18,12 @@ export function SelectionBoat({ setBoatSelected }: SelectionBoatProps){
             // setBoat(response.data[0]);
             setBoatSelected(response.data[0].id);
         }).catch(error=>console.log(error));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     useEffect(() => {
         getBoat();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     
     return(

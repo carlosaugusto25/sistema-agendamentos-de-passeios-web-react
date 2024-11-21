@@ -1,0 +1,55 @@
+@import '../../styles/_functions.scss';
+
+.container {
+    width: 100%;
+    height: pxtorem(500px);
+    padding: pxtorem(90px);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+        justify-content: center;
+        height: auto;
+        padding: pxtorem(16px);
+    }
+
+    img {
+      @media screen and (max-width: 768px) {
+        width: 100%;
+        margin-bottom: pxtorem(20px);
+      }
+    }
+
+    h2 {
+        margin-bottom: pxtorem(16px);
+        display: flex;
+        font-family: 'Cinzel Decorative';
+        font-size: pxtorem(32px);
+        line-height: pxtorem(43.14px);
+        font-weight: 700;
+        color: var(--blue-solid);
+  
+        img {
+          margin: 0 pxtorem(5px) pxtorem(30px);
+        }
+      }
+
+      p{
+        margin-left: pxtorem(30px);
+        font-family: "Raleway";
+        font-size: pxtorem(20px);
+        line-height: pxtorem(32px);
+        font-weight: 600;
+        color: var(--blue-solid);
+        cursor: pointer;
+
+        @media screen and (max-width: 768px) {
+          margin-left: 0;
+          font-size: pxtorem(16px);
+          line-height: pxtorem(24px);
+          text-align: center;
+        }
+      }
+}

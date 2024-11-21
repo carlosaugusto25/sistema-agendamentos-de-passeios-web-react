@@ -1,0 +1,117 @@
+@import '../../styles/_functions.scss';
+
+.container {
+  width: 100%;
+  height: pxtorem(700px);
+  background-image: url('../../assets/beach-1.jpeg');
+  background-size: cover;
+  background-position: center center;
+  margin-top: pxtorem(-90px);
+  clip-path: path('M0,50 Q500,150 1000,60 T2000,80 L2000,700 L0,700 Z');
+
+  @media screen and (max-width: 768px) {
+    clip-path: path('M0,50 Q100,100 250,50 T768,250 L768,700 L0,700 Z');
+    margin-top: 0px;
+  }
+
+  .content {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      269.84deg,
+      #2a57a0 23.44%,
+      rgba(42, 87, 160, 0) 90.75%
+    );
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    flex-direction: column;
+
+    .contentText {
+      text-align: right;
+      margin-right: pxtorem(90px);
+      width: 50%;
+      margin-top: pxtorem(100px);
+
+      @media screen and (max-width: 1366px) {
+        width: 60%;
+      }
+
+      @media screen and (max-width: 768px) {
+        width: 100%;
+        padding: pxtorem(16px);
+        margin-right: 0;
+        text-align: center;
+      }
+
+      h2 {
+        font-family: 'Cinzel Decorative';
+        font-size: pxtorem(32px);
+        line-height: pxtorem(43.14px);
+        font-weight: 700;
+        color: var(--white);
+        text-align: right;
+
+        @media screen and (max-width: 768px) {
+          text-align: center;
+          font-size: pxtorem(24px);
+          line-height: pxtorem(32.35px);
+          display: flex;
+
+          img {
+            margin-bottom: pxtorem(50px);
+          }
+        }
+      }
+
+      img {
+        margin: 0 pxtorem(5px) pxtorem(10px);
+      }
+
+      p {
+        margin-left: auto;
+        text-align: left;
+        font-family: 'Raleway';
+        font-size: pxtorem(24px);
+        line-height: pxtorem(32px);
+        font-weight: 700;
+        color: var(--white);
+        margin-top: pxtorem(24px);
+
+        @media screen and (max-width: 768px) {
+          text-align: center;
+          margin-left: 0;
+          font-size: pxtorem(20px);
+          line-height: pxtorem(32px);
+          font-weight: 600;
+        }
+      }
+
+      .list {
+        margin-top: pxtorem(48px);
+        margin-left: pxtorem(100px);
+        // width: pxtorem(300px);
+        text-align: left;
+        width: 100%;
+
+        @media screen and (max-width: 768px) {
+          margin-left: pxtorem(32px);
+          // width: 100%;
+        }
+
+        li {
+          font-family: 'Raleway';
+          font-size: pxtorem(20px);
+          line-height: pxtorem(32px);
+          font-weight: 500;
+          color: var(--white);
+
+          @media screen and (max-width: 768px) {
+            font-weight: 400;
+            width: 90%;
+          }
+        }
+      }
+    }
+  }
+}

@@ -5,6 +5,47 @@
     align-items: center;
     justify-content: center;
     background: radial-gradient(58.93% 69.94% at 50% 100%, var(--blue-300) 0%, var(--blue-500) 100%);
+    position: relative;
+    overflow-x: hidden;
+
+
+    svg {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 200vw;
+
+        .wave1 {
+            animation: moveWave1 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes moveWave1 {
+            from {
+                transform: translateX(-100px);
+            }
+        }
+
+        .wave2 {
+            animation: moveWave2 3s 1.2s ease-in-out infinite alternate;
+        }
+
+        @keyframes moveWave2 {
+            from {
+                transform: translateX(-90px);
+            }
+        }
+
+        .wave3 {
+            animation: moveWave3 3s 0.7s ease-in-out infinite alternate;
+        }
+
+        @keyframes moveWave3 {
+            from {
+                transform: translateX(-80px);
+            }
+        }
+    }
 
     .content {
         width: 25rem;
@@ -17,6 +58,7 @@
         justify-content: center;
         gap: 1.5rem;
         padding: 1.5rem;
+        z-index: 2;
 
         @media screen and (max-width: 600px) {
             width: 85%;

@@ -1,0 +1,19 @@
+@import "../../styles/_functions.scss";
+
+.container {
+    height: pxtorem(56px);
+    border-radius: pxtorem(4px);
+    background-color: var(--orange-primary);
+    padding: pxtorem(14px) pxtorem(48px);
+    font-family: "Raleway";
+    font-weight: 500;
+    font-size: pxtorem(24px);
+    line-height: pxtorem(28.18px);
+    color: var(--white);
+    border:none;
+    transition: .3s ease-in-out;
+
+    &:hover {
+        opacity: .7;
+    }
+}

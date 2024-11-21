@@ -51,7 +51,7 @@ api.registerInterceptTokenManager = (signOut) => {
           // eslint-disable-next-line no-async-promise-executor
           return new Promise(async (resolve, reject) => {
             try {
-              const { data } = await api.post('');
+              const { data } = await api.post('/sessions/refreshtoken');
 
               if (originalRequestConfig.data) {
                 originalRequestConfig.data = JSON.parse(

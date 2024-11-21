@@ -215,7 +215,7 @@ export function Config() {
             return toast.error('Preencha todos os campos para adicionar um adicional!')
         }
         setLoadingAddAdditional(true)
-        await api.post('/menu', {
+        await api.post('', {
             name: nameAdditional,
             value: Number(valueAdditional) * 100
         }).then(() => {

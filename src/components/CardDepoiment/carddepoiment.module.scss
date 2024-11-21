@@ -1,0 +1,45 @@
+@import '../../styles/_functions.scss';
+
+.container {
+    background-color: var(--white);
+    height: pxtorem(190px);
+    width: 99%;
+    border-radius: pxtorem(8px);
+    box-shadow: 0px 3.74px 3.74px 0px #00000040;
+    padding: pxtorem(16px);
+
+    @media screen and (max-width: 768px) {
+        height: pxtorem(160px);
+    }
+
+    .depoiment {
+        font-family: "Raleway";
+        font-size: pxtorem(20px);
+        line-height: pxtorem(23px);
+        font-weight: 600;
+        color: var(--blue-solid);
+
+        @media screen and (max-width: 768px) {
+            font-size: pxtorem(12px);
+            line-height: pxtorem(14.09px);
+        }
+
+        span {
+            font-family: "Passion One";
+            color: var(--orange-primary);
+            font-size: pxtorem(30px);
+
+            @media screen and (max-width: 768px) {
+                font-size: pxtorem(20px);
+            }
+
+            &:first-child {
+                display: inline-block;
+                transform: scaleX(-1);
+            }
+        }
+
+        
+    }
+}
+

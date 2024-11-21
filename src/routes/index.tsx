@@ -3,6 +3,7 @@ import { useAuth } from "../context/auth";
 import { Home } from "../pages/Home";
 import { Login } from "../pages/Login";
 import { Config } from "../pages/Config";
+import { LandingPage } from "../pages/LandingPage";
 
 export const RoutesApp: React.FC = () => {
 
@@ -21,6 +22,12 @@ export const RoutesApp: React.FC = () => {
         <Routes>
             <Route
                 path="/"
+                element={
+                    <LandingPage />
+                }
+            />
+            <Route
+                path="/login"
                 element={
                     <Login />
                 }

@@ -1,0 +1,25 @@
+@import '../../styles/_functions.scss';
+
+.container {
+    width: 100%;
+    height: pxtorem(60px);
+    background-color: var(--blue-solid);
+    padding: 0 pxtorem(90px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @media screen and (max-width: 768px) {
+        padding: pxtorem(16px);
+        flex-direction: column;
+        gap: pxtorem(10px);
+        height: auto;
+    }
+
+    p {
+        font-family: Raleway;
+        font-weight: 300;
+        font-size: pxtorem(16px);
+        color: var(--white);
+    }
+}

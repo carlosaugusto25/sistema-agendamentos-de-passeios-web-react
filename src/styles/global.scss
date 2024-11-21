@@ -1,46 +1,286 @@
+@import './_functions.scss';
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 :root {
-    --white: #ffffff;
-    
-    --gray-100: #f0f2f5;
-    --gray-500: #242424;
+  --white: #ffffff;
 
-    --blue-300: #0099DD;
-    --blue-500: #215ecf;
-    --blue-900: #063474;
+  --gray-100: #f0f2f5;
+  --gray-500: #242424;
 
-    --input: #FAFAFC;
-    --input-border: #E3E3E5;
+  --blue-300: #0099dd;
+  --blue-500: #215ecf;
+  --blue-900: #063474;
+  --blue-border: #2b58a0;
+  --blue-solid: #002050;
+
+  --input: #fafafc;
+  --input-border: #e3e3e5;
+
+  --orange-primary: #fb8724;
 }
 
-p,h1,h2,h3,h4,h5,h6 {
-    margin: 0;
-    padding: 0;
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.rbc-event-content {
-    font-size: .75rem;
+//REACT BIG CALENDER
 
-    @media screen and (max-width: 1366px) {
-        font-size: .55rem;
-        font-weight: 600;
-    }
+.rbc-event-content {
+  font-size: 0.75rem;
+
+  @media screen and (max-width: 1366px) {
+    font-size: 0.55rem;
+    font-weight: 600;
+  }
 }
 
 .rbc-show-more {
-    font-size: .75rem;
+  font-size: 0.75rem;
 
-    @media screen and (max-width: 1366px) {
-        font-size: .6rem;
-        font-weight: 600;
+  @media screen and (max-width: 1366px) {
+    font-size: 0.6rem;
+    font-weight: 600;
+  }
+}
+
+//REACT SWIPER
+
+.swiper {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: pxtorem(400px);
+  height: pxtorem(700px);
+  border-radius: pxtorem(500px);
+  // border: 1px solid red;
+
+  @media screen and (max-width: 1366px) {
+    width: pxtorem(300px);
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: pxtorem(300px);
+    margin-left: pxtorem(8px);
+  }
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  border-radius: pxtorem(500px);
+}
+
+.swiper-3d .swiper-slide-shadow-left {
+  background-image: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0)
+  );
+}
+
+.swiper-3d .swiper-slide-shadow-right {
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0)
+  );
+  @media screen and (max-width: 768px) {
+    width: pxtorem(100px);
+  }
+  img {
+    margin-top: pxtorem(20px);
+  }
+}
+
+.swiper-slide-fully-visible {
+  img {
+    margin-top: pxtorem(-30px);
+    border: pxtorem(10px) solid var(--blue-border);
+
+    @media screen and (max-width: 768px) {
+      margin-top: pxtorem(0px);
+      border: pxtorem(5px) solid var(--blue-border);
     }
+  }
+}
+
+.swiper-slide {
+  img {
+    border: pxtorem(10px) solid var(--blue-border);
+
+    @media screen and (max-width: 768px) {
+      border: pxtorem(5px) solid var(--blue-border);
+      z-index: -1;
+    }
+  }
+}
+
+.swiper-slide-active {
+  img {
+    margin-top: pxtorem(-50px);
+    border: pxtorem(10px) solid var(--orange-primary);
+
+    @media screen and (max-width: 768px) {
+      margin-top: pxtorem(0px);
+      border: pxtorem(5px) solid var(--orange-primary);
+      z-index: 20000;
+    }
+  }
+}
+
+//REACT SLICK
+
+.slick-slider {
+  width: 70%;
+  height: pxtorem(250px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+
+  @media screen and (max-width: 1366px) {
+    width: 80%;
+  }
+
+  @media screen and (max-width: 768px) {
+    border-radius: 0.625rem;
+    height: auto;
+  }
+}
+
+.slick-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  height: pxtorem(250px);
+  width: 100%;
+
+  @media screen and (max-width: 1366px) {
+    gap: 2rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    gap: 0;
+    border-radius: 0.625rem;
+    height: auto;
+  }
+}
+
+.slick-slide {
+  max-width: 100%;
+  height: pxtorem(200px);
+  transition: 0.3s ease-in-out;
+
+  @media screen and (max-width: 1366px) {
+    width: 14rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    border-radius: 0.625rem;
+  }
+}
+
+.slick-dots {
+  display: flex; /* Garantir que estão alinhados */
+  justify-content: center;
+  list-style: none;
+  padding: pxtorem(-55px) 0 pxtorem(44px) 0;
+
+  @media screen and (max-width: 768px) {
+    padding: pxtorem(50px) 0 pxtorem(44px) 0;
+  }
+}
+
+
+
+.slick-dots li {
+  list-style: none;
+  margin: 0 5px; /* Espaçamento entre os dots */
+
+  @media screen and (max-width: 768px) {
+    margin: -30px 5px;;
+  }
+}
+
+.slick-dots {
+  li {
+    button {
+      font-size: 0; /* Remove o texto padrão */
+      width: pxtorem(7.5px); /* Tamanho do dot */
+      height: pxtorem(7.5px); /* Tamanho do dot */
+      background-color: var(--white); /* Cor do dot */
+      border-radius: 50%; /* Deixa o dot circular */
+      border: none;
+      list-style: none !important;
+      box-shadow: 0px 0px 5px 0.5px #00000040;
+      
+
+      @media screen and (max-width: 768px) {
+        width: pxtorem(7.5px); /* Tamanho do dot */
+        height: pxtorem(7.5px);
+        background-color: var(--white);
+      }
+    }
+  }
+
+  
+}
+
+.slick-dots {
+  li {
+    button {
+      &::before {
+        font-size: 0;
+        display: none;
+        position: absolute;
+        text-align: center;
+        opacity: 0.25;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    }
+  }
+}
+
+.slick-dots li button::before {
+  font-size: 0;
+  position: absolute;
+  text-align: center;
+  opacity: 0.25;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.slick-dots li.slick-active button {
+  background-color: var(--orange-primary); /* Cor do dot ativo */
+  width: pxtorem(20px); /* Tamanho do dot */
+  height: pxtorem(20px); /* Tamanho do dot */
+  border: 1px solid #ffffff;
+  box-shadow: 0px 0px 5px 0.5px #00000040;
+  list-style: none !important;
 }
