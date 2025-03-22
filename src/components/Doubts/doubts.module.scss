@@ -52,4 +52,20 @@
           text-align: center;
         }
       }
+      .question {
+        margin-left: pxtorem(55px);
+        font-family: "Raleway";
+        font-size: pxtorem(15px);
+        line-height: pxtorem(32px);
+        font-weight: 600;
+        color: var(--blue-solid);
+        cursor: pointer;
+
+        @media screen and (max-width: 768px) {
+          margin-left: 0;
+          font-size: pxtorem(10px);
+          line-height: pxtorem(24px);
+          text-align: center;
+        }
+      }
 }
