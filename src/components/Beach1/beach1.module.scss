@@ -7,6 +7,7 @@
   background-size: cover;
   background-position: center center;
   margin-top: pxtorem(-90px);
+  overflow-x: hidden;
   clip-path: path('M0,50 Q500,150 1000,60 T2000,80 L2000,700 L0,700 Z');
 
   @media screen and (max-width: 768px) {

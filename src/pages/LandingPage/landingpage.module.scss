@@ -1,8 +1,39 @@
 .container {
-    overflow-x: hidden;
+  // overflow: hidden;
+
+  // Force light theme variables regardless of global theme
+  --surface-base: #f4f7fb;
+  --surface-card: #ffffff;
+  --surface-subtle: #f8fafc;
+  --surface-contrast: #e7ecf5;
+  --overlay-backdrop: rgba(17, 24, 39, 0.3);
+
+  --text-primary: #0f172a;
+  --text-secondary: #1f304f;
+  --text-muted: #4b5563;
+  --gray-100: #f8fafc;
+  --gray-500: #4b5563;
+  --white: #ffffff;
+
+  --input: #fafafc;
+  --input-border: #e3e8f5;
+
+  --danger: #d92d20;
+
+  --blue-300: #0099dd;
+  --blue-500: #215ecf;
+  --blue-900: #063474;
+  --blue-border: #2b58a0;
+  --blue-solid: #002050;
+  --orange-primary: #fb8724;
+
+  --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+
+  background-color: var(--surface-base);
+  color: var(--text-primary);
 }
 
 .hidden {
-    overflow: hidden;
-    height: 100vh;
+  overflow: hidden;
+  height: 100vh;
 }

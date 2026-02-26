@@ -13,7 +13,7 @@ type APIInstanceProrps = AxiosInstance & {
 };
 
 const api = axios.create({
-  baseURL: '',
+  baseURL: 'https://api-passeio.yazon.com.br',
 }) as APIInstanceProrps;
 
 let failedQueue: Array<PromiseType> = [];

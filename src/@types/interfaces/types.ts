@@ -11,9 +11,7 @@ export interface GetBoatProps {
             date: string;
             turn: string;
             people_quantity: number;
-            client_name: string;
-            client_phone: string;
-            client_email: string;
+            client_id: string;
             payment_type: string;
             value: number;
             total_value: number;
@@ -30,15 +28,31 @@ export interface GetBoatSelection {
     name: string;
 }
 
+export interface GetClientProps {
+    clients: [
+        {
+            id: string;
+            name: string;
+            document: string;
+            email: string;
+            phone: string;
+            created_at: string;
+            updated_at: string;
+        }
+    ],
+    count: number;
+    totalPages: number;
+    currentPage: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+}
+
 export interface GetAppointmentsProps {
     id: string;
     date: string;
     turn: string;
     people_quantity: string;
-    client_name: string;
-    client_phone: string;
-    client_email: string;
-    client_document: string;
+    client_id: string;
     payment_type: string;
     value: number;
     total_value: number;
@@ -52,13 +66,6 @@ export interface GetAppointmentsProps {
             additional_id: string;
             created_at: string;
             updated_at: string;
-            aditional: {
-                id: string;
-                name: string;
-                value: number;
-                created_at: string;
-                updated_at: string;
-            }
         }
     ],
     user: {
@@ -77,6 +84,15 @@ export interface GetAppointmentsProps {
         name: string;
         color: string;
         max_people: number;
+        created_at: string;
+        updated_at: string;
+    },
+    client: {
+        id: string;
+        name: string;
+        document: string;
+        email: string;
+        phone: string;
         created_at: string;
         updated_at: string;
     }
@@ -114,32 +130,104 @@ export interface AdditonalResponseShow {
     }
 }
 
+export interface Client {
+    id: string;
+    name: string;
+    document: string;
+    email: string;
+    phone: string;
+    created_at?: string;
+    updated_at?: string;
+}
+
 export interface DashProps {
     appointments: [
         {
             id: string;
-			date: string;
-			turn: string;
-			people_quantity: string;
-			client_name: string;
-			client_phone: string;
-			client_email: string;
-			client_document: string;
-			payment_type: string;
-			value: number;
-			total_value: number;
-			user_id: string;
-			created_at: string;
-			updated_at: string;
-			speedboat_id: string;
-			speedboat: {
-				id: string;
-				name: string;
-				max_people: number;
-				created_at: string;
-				updated_at: string;
-			}
+            date: string;
+            turn: string;
+            people_quantity: string;
+            client_id: string;
+            payment_type: string;
+            value: number;
+            total_value: number;
+            user_id: string;
+            created_at: string;
+            updated_at: string;
+            speedboat_id: string;
+            speedboat: {
+                id: string;
+                name: string;
+                max_people: number;
+                created_at: string;
+                updated_at: string;
+            }
         }
     ],
+    appointmentForSpeedboat: {
+        [key: string]: {
+            speedboat: {
+                id: string;
+                name: string;
+                color: string;
+                max_people: number;
+                created_at: string;
+                updated_at: string;
+            },
+            appointments: [
+                {
+                    id: string;
+                    date: string;
+                    turn: string;
+                    people_quantity: string;
+                    client_id: string;
+                    payment_type: string;
+                    value: number;
+                    total_value: number;
+                    user_id: string;
+                    created_at: string;
+                    updated_at: string;
+                    speedboat_id: string;
+                    speedboat: {
+                        id: string;
+                        name: string;
+                        color: string;
+                        max_people: number;
+                        created_at: string;
+                        updated_at: string;
+                    },
+                    user: {
+                        id: string;
+                        name: string;
+                        last_name: string;
+                        password: string;
+                        email: string;
+                        phone: string;
+                        user_type: string;
+                        created_at: string;
+                        updated_at: string;
+                    }
+                }
+            ]
+        }
+    },
     total_appointments: number;
+    total_clients: number;
+    total_appointments_by_speedboat: {
+        [key: string]: number;
+    },
+    total_appointments_by_user: {
+        [key: string]: number;
+    }
+}
+
+export interface UserProps {
+    id: string;
+    name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+    user_type: string;
+    created_at: string;
+    updated_at: string;
 }

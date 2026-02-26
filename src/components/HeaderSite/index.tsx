@@ -27,16 +27,22 @@ export function HeaderSite({ show, setShow }: HeaderSiteProps) {
         const handleScroll = () => {
             const currentScroll = window.scrollY;
 
+            // Detecta se o scroll está descendo
             if (currentScroll > lastScroll && currentScroll > 50) {
                 setVisible(false);
-            } else if (currentScroll < lastScroll) {
+            }
+            // Detecta se o scroll está subindo
+            else if (currentScroll < lastScroll) {
                 setVisible(true);
             }
 
+            // Atualiza o último valor de scroll
             setLastScroll(currentScroll);
         };
 
         window.addEventListener("scroll", handleScroll);
+
+        // Limpa o evento ao desmontar o componente
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
@@ -57,7 +63,7 @@ export function HeaderSite({ show, setShow }: HeaderSiteProps) {
 
     return (
         <>
-            <header className={`${styles.container} ${visible ? styles.visible : styles.hidden} ${show ? styles.overflow : ''}`}>
+            <header className={`${styles.container} ${visible ? styles.visible : styles.hidden}`}>
                 <img src={logo} alt="Logo Wendell Passeios" />
                 <nav>
                     <a className={select === 'inicio' ? styles.linkSelect : styles.linkNoSelect} onClick={() => setSelect('inicio')} href="#inicio">Início{select === 'inicio' && <div className={styles.line} />}</a>
@@ -67,20 +73,20 @@ export function HeaderSite({ show, setShow }: HeaderSiteProps) {
                     <a className={select === 'info' ? styles.linkSelect : styles.linkNoSelect} onClick={() => setSelect('info')} href="#info">Informações{select === 'info' && <div className={styles.line} />}</a>
                     <a className={select === 'duvidas' ? styles.linkSelect : styles.linkNoSelect} onClick={() => setSelect('duvidas')} href="#duvidas">Dúvidas{select === 'duvidas' && <div className={styles.line} />}</a>
                     <a className={select === 'contato' ? styles.linkSelect : styles.linkNoSelect} onClick={() => setSelect('contato')} href="#contato">Contato{select === 'contato' && <div className={styles.line} />}</a>
-                    <ButtonSite style={{ height: '2rem', fontSize: '0.9rem', padding: '0 2rem' }} onClick={() => navigate(user ? '/home' : '/login')}>Login</ButtonSite>
+                    <ButtonSite style={{ height: '2rem', fontSize: '0.9rem', padding: '0 2rem' }} onClick={() => navigate(user ? '/agenda' : '/login')}>Login</ButtonSite>
                 </nav>
                 {width <= 768 && <FaListUl className={styles.icon} onClick={() => setShow(!show)} />}
-                {width <= 768 && <ButtonSite style={{ height: '2rem', fontSize: '0.9rem', padding: '0 .8rem' }} onClick={() => navigate(user ? '/home' : '/login')}>Login</ButtonSite>}
+                {width <= 768 && <ButtonSite style={{ height: '2rem', fontSize: '0.9rem', padding: '0 .8rem' }} onClick={() => navigate(user ? '/agenda' : '/login')}>Login</ButtonSite>}
             </header>
             <div className={`${show ? styles.menuMobile : styles.none}`}>
                 <TbXboxX className={styles.icon} size={40} onClick={() => setShow(!show)} />
-                <a className={styles.link} onClick={() => {setSelect('inicio'); setShow(!show)}} href="#inicio">Início</a>
-                <a className={styles.link} onClick={() => {setSelect('sobre'); setShow(!show)}} href="#sobre">Sobre</a>
-                <a className={styles.link} onClick={() => {setSelect('passeio'); setShow(!show)}} href="#passeio">Passeio</a>
-                <a className={styles.link} onClick={() => {setSelect('depoimentos'); setShow(!show)}} href="#depoimentos">Depoimentos</a>
-                <a className={styles.link} onClick={() => {setSelect('info'); setShow(!show)}} href="#info">Informações</a>
-                <a className={styles.link} onClick={() => {setSelect('duvidas'); setShow(!show)}} href="#duvidas">Dúvidas</a>
-                <a className={styles.link} onClick={() => {setSelect('contato'); setShow(!show)}} href="#contato">Contato</a>
+                <a className={styles.link} onClick={() => { setSelect('inicio'); setShow(!show) }} href="#inicio">Início</a>
+                <a className={styles.link} onClick={() => { setSelect('sobre'); setShow(!show) }} href="#sobre">Sobre</a>
+                <a className={styles.link} onClick={() => { setSelect('passeio'); setShow(!show) }} href="#passeio">Passeio</a>
+                <a className={styles.link} onClick={() => { setSelect('depoimentos'); setShow(!show) }} href="#depoimentos">Depoimentos</a>
+                <a className={styles.link} onClick={() => { setSelect('info'); setShow(!show) }} href="#info">Informações</a>
+                <a className={styles.link} onClick={() => { setSelect('duvidas'); setShow(!show) }} href="#duvidas">Dúvidas</a>
+                <a className={styles.link} onClick={() => { setSelect('contato'); setShow(!show) }} href="#contato">Contato</a>
             </div>
         </>
     )

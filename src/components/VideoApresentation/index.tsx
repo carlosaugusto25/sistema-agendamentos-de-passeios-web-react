@@ -1,5 +1,4 @@
 import styles from './videoapresentation.module.scss';
-import video from '../../assets/wendell-passeios.mp4';
 import aspaInicio from '../../assets/aspa-inicio-orange.svg';
 import aspaFim from '../../assets/aspa-fim-orange.svg';
 import { ButtonSite } from '../ButtonSite';
@@ -12,7 +11,7 @@ interface VideoApresentationProps {
 export function VideoApresentation({ id }: VideoApresentationProps) {
 
     const redirectToWhatsApp = () => {
-        const phoneNumber = "5581995673662";
+        const phoneNumber = "5581987486726";
         const message = encodeURIComponent("Olá, gostaria de saber mais sobre o passeio");
         const url = `https://wa.me/${phoneNumber}?text=${message}`;
         window.open(url, "_blank", "noopener,noreferrer");
@@ -32,13 +31,22 @@ export function VideoApresentation({ id }: VideoApresentationProps) {
 
     return (
         <section id={id} className={styles.container}>
-            <video src={video} autoPlay loop muted className={styles.bgVideo} ></video>
+            <video
+                src="/wendell-passeios.mp4"
+                autoPlay
+                loop
+                muted
+                className={styles.bgVideo}
+                playsInline
+                preload="auto"
+            ></video>
+            <div className={styles.overlay}></div>
             <div className={styles.content}>
                 <h1>
                     {width <= 768 ?
                         <>
                             <img className={styles.aspaInicio} src={aspaInicio} alt="aspa" />
-                            explore fernando <br/>de noronha como <br/> nunca vista antes!
+                            explore fernando <br />de noronha como <br /> nunca vista antes!
                             <img className={styles.aspaFim} src={aspaFim} alt="aspa" />
                         </>
                         :

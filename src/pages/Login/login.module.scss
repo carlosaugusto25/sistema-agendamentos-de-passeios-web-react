@@ -50,8 +50,9 @@
     .content {
         width: 25rem;
         height: 25rem;
-        background-color: var(--white);
+        background-color: var(--surface-card);
         border-radius: 8px;
+        box-shadow: var(--shadow-soft);
         display: flex;
         flex-direction: column;
         align-items: center;

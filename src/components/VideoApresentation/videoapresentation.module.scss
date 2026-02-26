@@ -3,6 +3,7 @@
 .container {
   width: 100%;
   height: 100vh;
+  position: relative;
   background: linear-gradient(
     109.6deg,
     rgba(57, 103, 173, 0.95) 29.8%,
@@ -10,52 +11,36 @@
     rgba(57, 103, 173, 0.95) 85.68%
   );
   margin-top: pxtorem(-70px);
+  overflow-x: hidden;
   .bgVideo {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    // overflow: hidden;
-    z-index: -1;
+    z-index: 0;
     opacity: 0.5;
     object-fit: cover;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
 
     @media screen and (max-width: 768px) {
-        height: 120vh;
+      height: 100%;
+      min-height: 100vh;
     }
   }
 
-  .bgVideo::after {
-    content: '';
-    width: 100%;
-    height: 100%;
+  .overlay {
     position: absolute;
     top: 0;
     left: 0;
-    display: block;
-    background: -webkit-gradient(
-      linear,
-      left top,
-      right top,
-      color-stop(23.96%, #0b0c10),
-      color-stop(54.09%, rgba(11, 12, 16, 0.8)),
-      color-stop(77.6%, #0c0c10)
-    );
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
     background: linear-gradient(
-      90deg,
-      #0b0c10 23.96%,
-      rgba(11, 12, 16, 0.8) 54.09%,
-      #0c0c10 77.6%
+      109.6deg,
+      rgba(57, 103, 173, 0.95) 29.8%,
+      rgba(57, 103, 173, 0.39) 58.83%,
+      rgba(57, 103, 173, 0.95) 85.68%
     );
   }
 
@@ -63,6 +48,12 @@
     position: absolute;
     top: pxtorem(144px);
     left: pxtorem(70px);
+    z-index: 2;
+
+    @media screen and (max-width: 768px) {
+      top: pxtorem(100px);
+      left: pxtorem(16px);
+    }
 
     h1 {
       font-family: 'Cinzel Decorative';
@@ -75,11 +66,19 @@
 
     .aspaInicio {
       margin-top: pxtorem(-85px);
+
+      @media screen and (max-width: 768px) {
+        max-width: pxtorem(25px);
+      }
     }
 
     .aspaFim {
       margin-left: pxtorem(-135px);
       margin-top: pxtorem(20px);
+
+      @media screen and (max-width: 768px) {
+        max-width: pxtorem(25px);
+      }
     }
 
     h2 {
@@ -87,7 +86,7 @@
       margin-left: pxtorem(20px);
       font-family: 'Raleway';
       font-weight: 400;
-      font-size: pxTorRem(32px);
+      font-size: pxtorem(32px);
       line-height: pxtorem(37.57px);
       color: var(--white);
     }
@@ -99,48 +98,76 @@
   }
 
   @media screen and (max-width: 768px) {
-    height: 120vh;
-    
+    height: auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
     .content {
-      padding: pxtorem(100px) pxtorem(16px) 0 pxtorem(16px);
-      position: inherit;
+      padding: pxtorem(80px) pxtorem(16px) pxtorem(40px) pxtorem(16px);
+      position: relative;
+      top: 0;
+      left: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      width: 100%;
 
       h1 {
         font-family: 'Cinzel Decorative';
-        font-size: pxtorem(28px);
-        line-height: pxtorem(43.14px);
+        font-size: pxtorem(24px);
+        line-height: pxtorem(36px);
         font-weight: 700;
         color: var(--white);
         display: flex;
+        flex-direction: column;
         width: 100%;
+        text-align: center;
+        align-items: center;
+        position: relative;
       }
 
       .aspaInicio {
-        margin-top: pxtorem(-105px);
+        margin-top: 0;
+        position: absolute;
+        top: pxtorem(-20px);
+        left: pxtorem(0px);
+        max-width: pxtorem(20px);
       }
 
       .aspaFim {
-        margin-left: auto;
-        margin-top: pxtorem(70px);
+        margin-left: 0;
+        margin-top: 0;
+        position: absolute;
+        bottom: pxtorem(-20px);
+        right: pxtorem(0px);
+        max-width: pxtorem(20px);
       }
 
       h2 {
-        margin-top: pxtorem(46px);
-        margin-left: pxtorem(0px);
+        margin-top: pxtorem(32px);
+        margin-left: 0;
         text-align: center;
         font-family: 'Raleway';
         font-weight: 400;
-        font-size: pxTorRem(24px);
-        line-height: pxtorem(28.18px);
+        font-size: pxtorem(18px);
+        line-height: pxtorem(24px);
+        padding: 0 pxtorem(10px);
       }
 
       .contentButton {
-        margin-top: pxtorem(46px);
-        margin-left: pxtorem(0px);
+        margin-top: pxtorem(32px);
+        margin-left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        
+        button {
+             width: 100%;
+             max-width: 300px;
+        }
       }
     }
   }

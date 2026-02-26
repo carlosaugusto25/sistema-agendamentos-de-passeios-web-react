@@ -16,4 +16,11 @@
     &:hover {
         opacity: .7;
     }
+
+    @media screen and (max-width: 768px) {
+        font-size: pxtorem(16px);
+        padding: pxtorem(12px) pxtorem(32px);
+        height: auto;
+        min-height: pxtorem(48px);
+    }
 }

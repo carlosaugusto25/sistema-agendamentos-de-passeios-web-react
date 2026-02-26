@@ -43,49 +43,55 @@
 
       @media screen and (max-width: 768px) {
         text-align: center;
+        justify-content: space-between;
+        font-size: pxtorem(20px);
+        line-height: pxtorem(32.35px);
+        justify-content: center;
+        margin: 0 pxtorem(5px);
         width: 100%;
-        font-size: pxtorem(32px);
       }
 
       .inicio {
         margin: 0 pxtorem(5px) pxtorem(70px);
+        width: pxtorem(25px);
 
         @media screen and (max-width: 768px) {
-          margin: pxtorem(-100px) pxtorem(5px) pxtorem(20px);
+          margin: pxtorem(-50px) pxtorem(5px) pxtorem(20px);
         }
       }
       .fim {
-        margin: 0 0 pxtorem(-10px) pxtorem(-220px);
+        margin: 0 0 pxtorem(70px) pxtorem(5px);
+        width: pxtorem(25px);
 
         @media screen and (max-width: 768px) {
-          margin: pxtorem(90px) 0 pxtorem(20px) pxtorem(-10px);
+          margin: pxtorem(-50px) 0 pxtorem(20px) pxtorem(5px);
         }
       }
     }
     h3 {
-        margin-top: pxtorem(40px);
-        font-family: "Raleway";
-        font-size: pxtorem(32px);
-        line-height: pxtorem(37.57px);
-        font-weight: 500;
-        color: var(--white);
-        transform: scaleX(-1);
+      margin-top: pxtorem(40px);
+      font-family: 'Raleway';
+      font-size: pxtorem(32px);
+      line-height: pxtorem(37.57px);
+      font-weight: 500;
+      color: var(--white);
+      transform: scaleX(-1);
 
-        @media screen and (max-width: 768px) {
-            text-align: center;
-            font-size: pxtorem(28px);
-        }
+      @media screen and (max-width: 768px) {
+        text-align: center;
+        font-size: pxtorem(28px);
+      }
     }
     .contentButton {
-        transform: scaleX(-1);
-        margin-top: pxtorem(90px);
+      transform: scaleX(-1);
+      margin-top: pxtorem(90px);
 
-        @media screen and (max-width: 768px) {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-        }
+      @media screen and (max-width: 768px) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
     }
   }
 }

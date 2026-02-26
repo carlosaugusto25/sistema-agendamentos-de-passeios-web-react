@@ -11,10 +11,7 @@ export function LoadingBoatGet() {
 
     return (
         <div className={styles.container}>
-            
-                
-                    <Lottie options={defaultOptions} height={100} width={100} />
-                
+            <Lottie options={defaultOptions} height={100} width={100} />
         </div>
 
     );

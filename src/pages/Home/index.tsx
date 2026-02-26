@@ -4,7 +4,7 @@ import styles from './home.module.scss';
 import { addDays, format, getDay, parse, startOfWeek } from "date-fns";
 import { api } from "../../service/api";
 import { SelectionBoat } from "../../components/SelectionBoat";
-import { Calendar, dateFnsLocalizer, SlotInfo } from 'react-big-calendar';
+import { Calendar, dateFnsLocalizer, SlotInfo, View } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { ptBR } from 'date-fns/locale';
 import { AdditionalProps, GetAppointmentsProps, GetBoatProps, AdditonalResponseShow } from "../../@types/interfaces/types";
@@ -16,8 +16,9 @@ import { SelectTurn } from "../../components/SelectTurn";
 import { SelectPayment } from "../../components/SelectPayment";
 import { toast } from "react-toastify";
 import { maskCpf, maskDate, maskPhone } from "../../utils/masks";
-import { FaPlus, FaRegCalendarAlt, FaList } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { LoadingBoatGet } from "../../components/LoadingBoatGet";
+import { useTheme } from "../../hooks/useTheme";
 
 const locales = {
     'pt-BR': ptBR
@@ -43,7 +44,15 @@ interface EventSelectedProps {
 
 interface Item {
     id: string;
-    client_name: string;
+    client: {
+        id: string;
+        name: string;
+        email: string;
+        phone: string;
+        document: string;
+        created_at: string;
+        updated_at: string;
+    }
     turn: string;
     date: string;
     speedboat_id: string;
@@ -69,6 +78,7 @@ export function Home() {
     const [loadingDeleteAppointment, setLoadingDeleteAppointment] = useState(false);
     const [loadingListAppointment, setLoadingListAppointment] = useState(false);
     const [loadingDetailsAppointment, setLoadingDetailsAppointment] = useState(false);
+    const [loadingCreateClient, setLoadingCreateClient] = useState(false);
 
     const [boatId, setBoatId] = useState('');
     const [idAppointmentEdit, setIdAppointmentEdit] = useState('');
@@ -77,6 +87,7 @@ export function Home() {
     const [dateSelected, setDateSelected] = useState('');
     const [turnSelected, setTurnSelected] = useState('');
     const [quantity, setQuantity] = useState('');
+    const [clientId, setClientId] = useState('');
     const [clientEmail, setClientEmail] = useState('');
     const [clientName, setClientName] = useState('');
     const [clientPhone, setClientPhone] = useState('');
@@ -94,25 +105,76 @@ export function Home() {
     const [modalList, setModalList] = useState(false);
     const [modalEdit, setModalEdit] = useState(false);
     const [modalDelete, setModalDelete] = useState(false);
+    const [modalCreateClient, setModalCreateClient] = useState(false);
 
-    const [screenSize, setScreenSize] = useState({ width: window.innerWidth, height: window.innerHeight });
-    const [option, setOption] = useState<'list' | 'calendar'>('list')
 
-    const updateScreenSize = () => {
-        setScreenSize({ width: window.innerWidth, height: window.innerHeight });
-    };
+
+    const { theme } = useTheme();
+
+    const calendarViews = useMemo<View[]>(() => ['month', 'week'], []);
+    const defaultCalendarView: View = useMemo(() => 'month', []);
+
+
 
     const loadAditionals = useCallback(async () => {
-        await api.get('').then((response) => {
+        await api.get('/menu').then((response) => {
             setAditionals(response.data)
         }).catch(error => console.log(error))
     }, [])
 
     const getBoat = useCallback(async () => {
-        await api.get('').then((response) => {
+        await api.get('/speedboats').then((response) => {
             setBoats(response.data);
         }).catch(error => console.log(error));
     }, [])
+
+    const searchClient = useCallback(async () => {
+
+        if (clientDocument.length < 11) {
+            toast.error('CPF inválido!');
+            return;
+        }
+
+        api.get(`/clients/search/${clientDocument}`).then((response) => {
+            setClientName(response.data.name);
+            setClientEmail(response.data.email);
+            setClientPhone(response.data.phone);
+            setClientId(response.data.id);
+            toast.success('Cliente encontrado!');
+        }).catch(error => {
+            setClientName('');
+            setClientEmail('');
+            setClientPhone('');
+            setModalCreateClient(true);
+            setModalAdd(false);
+            setClientId('');
+            toast.error(error.message);
+        })
+    }, [clientDocument])
+
+    const createClient = useCallback(async () => {
+        if (clientDocument.length < 11) {
+            toast.error('CPF inválido!');
+            return;
+        }
+
+        setLoadingCreateClient(false);
+
+        api.post('/clients', {
+            name: clientName,
+            email: clientEmail,
+            phone: clientPhone,
+            document: clientDocument,
+        }).then((response) => {
+            setClientId(response.data.id);
+            setModalCreateClient(false);
+            setModalAdd(true);
+            toast.success('Cliente criado com sucesso!');
+        }).catch(error => {
+            console.log(error);
+            toast.error('Erro ao criar cliente!');
+        }).finally(() => setLoadingCreateClient(false))
+    }, [clientName, clientDocument, clientEmail, clientPhone])
 
 
     const extractMonth = (dateString: string): number => {
@@ -155,7 +217,7 @@ export function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const loadAppointments = async () => {
         setLoading(true);
-        await api.get(``).then((response) => {
+        await api.get(`/appointments`).then((response) => {
             setAppointment(response.data);
             const rawData: Item[] = response.data;
             const formatedData = organizeData(rawData);
@@ -165,7 +227,7 @@ export function Home() {
 
     const loadAppointmentsShow = useCallback((id: string) => {
         setLoadingDetailsAppointment(true);
-        api.get(``).then((response) => {
+        api.get(`/appointments/${id}`).then((response) => {
             setAppointmentSelectedCalendar(response.data);
         }).catch(error => {
             console.log(error)
@@ -175,7 +237,7 @@ export function Home() {
 
     const loadAppointmentsShowEdit = useCallback((id: string) => {
         setLoadingEditAppointment(true);
-        api.get(``).then((response) => {
+        api.get(`/appointments/${id}`).then((response) => {
             setIdAppointmentEdit(response.data.id);
             setClientName(response.data.client_name);
             setClientEmail(response.data.client_email);
@@ -199,14 +261,10 @@ export function Home() {
         loadAppointments();
         loadAditionals();
         getBoat()
-
-        window.addEventListener('resize', updateScreenSize);
-
-        return () => {
-            window.removeEventListener('resize', updateScreenSize);
-        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    // console.log(dataAppointments, appointment)
 
     const appointmentsFilter = useMemo(() => {
         return dataAppointments.map((item) => ({ ...item, data: item.data.filter((item) => item.speedboat_id === boatId) }))
@@ -215,14 +273,14 @@ export function Home() {
     const appointmentsCalendar = useMemo(() => {
         return appointment.map((item) => ({
             id: item.id,
-            title: item.client_name,
+            title: item.client.name,
             start: addDays(new Date(item.date), 1),
             end: addDays(new Date(item.date), 1),
             desc: item.speedboat.name,
-            color: format(addDays(new Date(item.date),1), 'yyyy-MM-dd') < format(new Date(), 'yyyy-MM-dd') ? 'gray' : (item?.additionals?.length > 0 ? '#FC7B01' : (item.speedboat.color ? item.speedboat.color : 'blue')),
+            color: format(addDays(new Date(item.date), 1), 'yyyy-MM-dd') < format(new Date(), 'yyyy-MM-dd') ? 'gray' : (item?.additionals?.length > 0 ? '#FC7B01' : (item.speedboat.color ? item.speedboat.color : 'blue')),
             tipo: item.turn === 'MORNING' ? 'Manhã' : (item.turn === 'AFTERNOON' ? 'Tarde' : 'Dia inteiro'),
         }))
-        
+
     }, [appointment])
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -237,6 +295,7 @@ export function Home() {
         setDateSelected(format(new Date(event.start), 'dd-MM-yyyy'))
         setClientName('')
         setClientDocument('')
+        setClientId('')
         setValue('')
         setQuantity('')
         setClientEmail('')
@@ -314,7 +373,7 @@ export function Home() {
         if (dateSelected === '' || clientName === '' || clientDocument === '' || value === '' || quantity === '' || clientPhone === '' || turnSelected === '' || paymentType === '' || speedboatSelected === '') {
             return toast.error('Preencha todos os dados.')
         }
-
+        //testar find no lugar do map
         appointment.map((item) => {
             if (item.date === dateSelected.split('-').reverse().join('-') && turnSelected === item.turn && item.speedboat_id === speedboatSelected) {
                 return unavailableBoat = true
@@ -345,10 +404,11 @@ export function Home() {
             date: dateSelected.split('-').reverse().join('-'),
             turn: turnSelected,
             people_quantity: Number(quantity),
-            client_email: clientEmail,
-            client_name: clientName,
-            client_phone: clientPhone,
-            client_document: clientDocument,
+            // client_email: clientEmail,
+            // client_name: clientName,
+            // client_phone: clientPhone,
+            // client_document: clientDocument,
+            client_id: clientId,
             payment_type: paymentType,
             value: Number(value) * 100,
             total_value: valueTotal,
@@ -356,14 +416,17 @@ export function Home() {
             additionals: aditionalSelected
         }
 
-        setLoadingNewAppointment(true)
+        console.log("obj", obj)
 
-        await api.post('', obj).then(() => {
+        setLoadingNewAppointment(true)
+        try {
+            await api.post('/appointments', obj, { withCredentials: true })
             toast.success('Passeio agendado com sucesso!')
             loadAppointments()
             setModalAdd(false)
             setClientName('')
             setClientDocument('')
+            setClientId('')
             setValue('')
             setTotalValue('')
             setQuantity('')
@@ -373,11 +436,19 @@ export function Home() {
             setPaymentType('')
             setSpeedboatSelected('')
             setAditionalSelected([])
-        }).catch(error => {
+        }
+
+        catch (error) {
             console.log(error)
             toast.error('Não foi possível agendar o passeio.')
-        }).finally(() => setLoadingNewAppointment(false))
-    }, [boats, appointment, speedboatSelected, clientName, clientDocument, value, quantity, dateSelected, aditionalSelected, clientPhone, clientEmail, turnSelected, paymentType, valueTotal, loadAppointments])
+        }
+
+        finally {
+            setLoadingNewAppointment(false)
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [boats, appointment, speedboatSelected, clientId, value, quantity, dateSelected, aditionalSelected, turnSelected, paymentType, valueTotal, loadAppointments])
 
     const aditionalMemo = useMemo(() => {
         return appointmentSelectedCalendar?.additionals?.map(add => {
@@ -394,7 +465,7 @@ export function Home() {
             return toast.error('Preencha todos os dados.')
         }
 
-        if(dateSelected.split('-').reverse().join('-') !== appointmentSelectedCalendar?.date || turnSelected !== appointmentSelectedCalendar?.turn || speedboatSelected !== appointmentSelectedCalendar?.speedboat_id) {
+        if (dateSelected.split('-').reverse().join('-') !== appointmentSelectedCalendar?.date || turnSelected !== appointmentSelectedCalendar?.turn || speedboatSelected !== appointmentSelectedCalendar?.speedboat_id) {
             appointment.map((item) => {
                 if (item.date === dateSelected.split('-').reverse().join('-') && turnSelected === item.turn && item.speedboat_id === speedboatSelected && idAppointmentEdit !== item.id) {
                     return unavailableBoat = true
@@ -440,7 +511,7 @@ export function Home() {
 
         setLoadingEditAppointment(true)
 
-        await api.put('', obj).then(() => {
+        await api.put('/appointments', obj).then(() => {
             toast.success('Passeio atualizado com sucesso!')
             loadAppointments()
             setModalEdit(false)
@@ -463,7 +534,7 @@ export function Home() {
 
     const handleDeleteAppointment = useCallback(async (id: string) => {
         setLoadingDeleteAppointment(true)
-        await api.delete(``).then(() => {
+        await api.delete(`/appointments/${id}`).then(() => {
             toast.success('Passeio excluído com sucesso!')
             loadAppointments()
             setModalDelete(false)
@@ -477,17 +548,25 @@ export function Home() {
         setLoadingDetailsAppointment(true);
         try {
             const response = await api.get(
-                ``
+                `/appointments/voucher/${appointmentSelectedCalendar?.id}`,
+                {
+                    responseType: 'blob',
+                    withCredentials: true
+                }
             );
 
-            // Converte para um Blob
-            const blob = await fetch(response.data).then((res) => res.blob());
+            // Cria um Blob a partir da resposta
+            const blob = new Blob([response.data], { type: 'application/pdf' });
 
             // Cria um URL temporário para o PDF
             const blobUrl = URL.createObjectURL(blob);
 
             // Abre o PDF em uma nova aba do navegador
             window.open(blobUrl, '_blank');
+
+            // Limpa o URL após um tempo para liberar memória
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+
             setLoadingDetailsAppointment(false);
         } catch (error) {
             console.error('Erro ao buscar o PDF:', error);
@@ -505,8 +584,8 @@ export function Home() {
                     :
                     <>
                         <div className={styles.container}>
-                            {
-                                screenSize.width > 600 &&
+                            <div className={`${theme === 'dark' ? styles.dark : styles.light}`}>
+
                                 <div className={styles.schedulingList}>
                                     <div className={styles.contentHeader}>
                                         <h1>Próximos passeios</h1>
@@ -525,7 +604,7 @@ export function Home() {
                                                                         <div className={styles.info}>
                                                                             <p className={styles.number}>{index + 1}</p>
                                                                             <div>
-                                                                                <p className={styles.nameClient}>{it.client_name}</p>
+                                                                                <p className={styles.nameClient}>{it?.client?.name}</p>
                                                                                 <p className={styles.type}><strong>{it.turn === 'MORNING' ? 'Manhã' : (it.turn === 'AFTERNOON' ? 'Tarde' : 'Dia inteiro')}</strong> - {it.speedboat.name} </p>
                                                                             </div>
                                                                         </div>
@@ -541,9 +620,7 @@ export function Home() {
                                         }
                                     </div>
                                 </div>
-                            }
-                            {
-                                screenSize.width > 600 &&
+
                                 <div className={styles.schedulingCalendar}>
                                     <h1>Calendário de Passeios</h1>
                                     <Calendar
@@ -553,7 +630,8 @@ export function Home() {
                                         events={appointmentsCalendar}
                                         className={styles.calendar}
                                         onSelectEvent={(event) => handleDetailsEvent(event)}
-                                        views={['month']}
+                                        views={calendarViews}
+                                        defaultView={defaultCalendarView}
                                         eventPropGetter={eventStyle}
                                         onSelectSlot={(slotInfo) => handleAddEvent(slotInfo)}
                                         messages={{
@@ -584,101 +662,9 @@ export function Home() {
                                         ))}
                                     </div>
                                 </div>
-                            }
-                            {
-                                (screenSize.width <= 600 && option === 'list') &&
-                                <div className={styles.schedulingList}>
-                                    <div className={styles.contentHeader}>
-                                        <h1>Próximos passeios</h1>
-                                        <SelectionBoat setBoatSelected={setBoatId} />
-                                    </div>
-                                    <div className={styles.contentList}>
-                                        {
-                                            appointmentsFilter.map((item, index) => {
-                                                if (item.data.length > 0) {
-                                                    return (
-                                                        <>
-                                                            <h4 key={index}>{item.title.split('-').reverse().join('-')}</h4>
-                                                            {
-                                                                item.data.map((it, index) => (
-                                                                    <div className={styles.card} key={it.id} onClick={() => { loadAppointmentsShow(it.id); setModalDetails(true) }}>
-                                                                        <div className={styles.info}>
-                                                                            <p className={styles.number}>{index + 1}</p>
-                                                                            <div>
-                                                                                <p className={styles.nameClient}>{it.client_name}</p>
-                                                                                <p className={styles.type}><strong>{it.turn === 'MORNING' ? 'Manhã' : (it.turn === 'AFTERNOON' ? 'Tarde' : 'Dia inteiro')}</strong> - {it.speedboat.name} </p>
-                                                                            </div>
-                                                                        </div>
 
-                                                                        <FaEye className={styles.icon} />
-                                                                    </div>
-                                                                ))
-                                                            }
-                                                        </>
-                                                    )
-                                                }
-                                            })
-                                        }
-                                    </div>
-                                </div>
-                            }
-                            {
-                                (screenSize.width <= 600 && option === 'calendar') &&
-                                <div className={styles.schedulingCalendar}>
-                                    <h1>Calendário de Passeios</h1>
-                                    <Calendar
-                                        localizer={localizer}
-                                        startAccessor="start"
-                                        endAccessor="end"
-                                        events={appointmentsCalendar}
-                                        className={styles.calendar}
-                                        onSelectEvent={(event) => handleDetailsEvent(event)}
-                                        views={['month']}
-                                        eventPropGetter={eventStyle}
-                                        onSelectSlot={(slotInfo) => handleAddEvent(slotInfo)}
-                                        messages={{
-                                            allDay: 'Dia inteiro',
-                                            previous: 'Anterior',
-                                            next: 'Seguinte',
-                                            today: 'Hoje',
-                                            month: 'Mês',
-                                            week: 'Semana',
-                                            day: 'Dia',
-                                            agenda: 'Agenda',
-                                            date: 'Data',
-                                            time: 'Hora',
-                                            event: 'Evento',
-                                            noEventsInRange: 'Sem eventos neste intervalo',
-                                            showMore: total => `+${total} mais`,
-                                        }}
-                                        onShowMore={(onshowmore) => handleEventListCalendar(onshowmore)}
-                                        culture="pt-BR"
-                                        selectable
-                                        longPressThreshold={250}
-                                    />
-                                    <div className={styles.legend}>
-                                        {boats.map((boat) => (
-                                            <div key={boat.id} className={styles.nameAndColor}>
-                                                <p className={styles.name}>{boat.name}</p>
-                                                <div className={styles.color} style={{ backgroundColor: boat.color ? boat.color : '' }} />
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            }
-                            {
-                                screenSize.width <= 600 &&
-                                <div className={styles.menuBotton}>
-                                    <div onClick={() => setOption('list')} className={styles.iconAndNameMenu}>
-                                        <FaList className={styles.iconMenu} style={{ color: option === 'list' ? '#0099DD' : '#706e7a' }} />
-                                        <p style={{ color: option === 'list' ? '#0099DD' : '#706e7a' }}>Listagem</p>
-                                    </div>
-                                    <div onClick={() => setOption('calendar')} className={styles.iconAndNameMenu}>
-                                        <FaRegCalendarAlt className={styles.iconMenu} style={{ color: option === 'calendar' ? '#0099DD' : '#706e7a' }} />
-                                        <p style={{ color: option === 'calendar' ? '#0099DD' : '#706e7a' }}>Calendário</p>
-                                    </div>
-                                </div>
-                            }
+
+                            </div>
                         </div>
                         {
                             modalAdd &&
@@ -697,13 +683,13 @@ export function Home() {
                                         <Input defaultValue={dateSelected} readOnly />
                                         <SelectBoat value={speedboatSelected} setBoatSelected={setSpeedboatSelected} />
                                     </div>
-                                    <Input placeholder="Nome do cliente" type="text" value={clientName} onChange={(e) => setClientName(e.target.value)} />
                                     <div className={styles.contentSelects2}>
-                                        <Input placeholder="CPF do cliente" type="text" maxLength={11} value={maskCpf(clientDocument)} onChange={(e) => setClientDocument(e.target.value)} />
-                                        <Input placeholder="Telefone do cliente" type="text" maxLength={14} value={maskPhone(clientPhone)} onChange={(e) => setClientPhone(e.target.value)} />
+                                        <Input width="90%" onFunction={searchClient} placeholder="CPF do cliente" type="text" maxLength={11} value={maskCpf(clientDocument)} onChange={(e) => setClientDocument(e.target.value)} icon />
+                                        <Input disabled placeholder="Telefone do cliente" type="text" maxLength={14} value={maskPhone(clientPhone)} onChange={(e) => setClientPhone(e.target.value)} />
                                     </div>
+                                    <Input disabled placeholder="Nome do cliente" type="text" value={clientName} onChange={(e) => setClientName(e.target.value)} />
                                     <div className={styles.contentSelects2}>
-                                        <Input width="70%" placeholder="Email do cliente" type="email" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)} />
+                                        <Input disabled width="70%" placeholder="Email do cliente" type="email" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)} />
                                         <Input width="26%" placeholder="Qtd" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
                                     </div>
                                     <div className={styles.contentSelects2}>
@@ -726,6 +712,28 @@ export function Home() {
                             </Modal>
                         }
                         {
+                            modalCreateClient &&
+                            <Modal
+                                onClose={() => { setModalCreateClient(false); deleteInfos() }}
+                                onClick={createClient}
+                                textButton1="Cancelar"
+                                typeButton1="cancel"
+                                textButton2="Cadastrar"
+                                typeButton2="create"
+                                title="Cadastrar cliente"
+                                loading={loadingCreateClient}
+                            >
+                                <div className={styles.contentModalAdd}>
+                                    <div className={styles.contentSelects2}>
+                                        <Input width="90%" placeholder="CPF do cliente" type="text" maxLength={11} value={maskCpf(clientDocument)} onChange={(e) => setClientDocument(e.target.value)} />
+                                        <Input placeholder="Telefone do cliente" type="text" maxLength={14} value={maskPhone(clientPhone)} onChange={(e) => setClientPhone(e.target.value)} />
+                                    </div>
+                                    <Input placeholder="Nome do cliente" type="text" value={clientName} onChange={(e) => setClientName(e.target.value)} />
+                                    <Input placeholder="Email do cliente" type="email" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)} />
+                                </div>
+                            </Modal>
+                        }
+                        {
                             modalDetails &&
                             <Modal
                                 onClose={() => setModalDetails(false)}
@@ -743,21 +751,21 @@ export function Home() {
                             >
                                 <div className={styles.contentModalDetails}>
                                     <p className={styles.labelName}>Nome:</p>
-                                    <p className={styles.nameClient}>{appointmentSelectedCalendar?.client_name}</p>
+                                    <p className={styles.nameClient}>{appointmentSelectedCalendar?.client?.name ? appointmentSelectedCalendar?.client?.name : 'Não informado'}</p>
                                     <div className={styles.contentRow}>
                                         <div>
                                             <p className={styles.labelName}>CPF:</p>
-                                            <p className={styles.info}>{maskCpf(appointmentSelectedCalendar?.client_document ? appointmentSelectedCalendar?.client_document : 'Não informado')}</p>
+                                            <p className={styles.info}>{maskCpf(appointmentSelectedCalendar?.client?.document ? appointmentSelectedCalendar?.client?.document : 'Não informado')}</p>
                                         </div>
                                         <div>
                                             <p className={styles.labelName}>Telefone:</p>
-                                            <p className={styles.info}>{maskPhone(appointmentSelectedCalendar?.client_phone ? appointmentSelectedCalendar?.client_phone : 'Não informado')}</p>
+                                            <p className={styles.info}>{maskPhone(appointmentSelectedCalendar?.client?.phone ? appointmentSelectedCalendar?.client?.phone : 'Não informado')}</p>
                                         </div>
                                     </div>
                                     <div className={styles.contentRow}>
                                         <div>
                                             <p className={styles.labelName}>Email:</p>
-                                            <p className={styles.info}>{appointmentSelectedCalendar?.client_email ? appointmentSelectedCalendar?.client_email : 'Não informado'}</p>
+                                            <p className={styles.info}>{appointmentSelectedCalendar?.client?.email ? appointmentSelectedCalendar?.client?.email : 'Não informado'}</p>
                                         </div>
                                         <div>
                                             <p className={styles.labelName}>Quantidade:</p>
@@ -911,7 +919,7 @@ export function Home() {
                                 <div className={styles.contentModalDelete}>
                                     <p className={styles.title}>Tem certeza que deseja excluir o passeio?</p>
                                     <p className={styles.label}>Cliente</p>
-                                    <p className={styles.info}>{appointmentSelectedCalendar?.client_name}</p>
+                                    <p className={styles.info}>{appointmentSelectedCalendar?.client?.name}</p>
                                     <p className={styles.label}>Data</p>
                                     <p className={styles.info}>{appointmentSelectedCalendar?.date?.split('-').reverse().join('-')}</p>
                                     <p className={styles.label}>Embarcação</p>

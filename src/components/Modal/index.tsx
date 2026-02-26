@@ -19,7 +19,7 @@ interface ModalProps {
     onVoucher?: () => void;
 }
 
-export function Modal({onDelete, deleteIcon, voucherIcon, onVoucher, children, loading, onClose, typeButton1, typeButton2, textButton1, textButton2, onClick, title }: ModalProps) {
+export function Modal({ onDelete, deleteIcon, voucherIcon, onVoucher, children, loading, onClose, typeButton1, typeButton2, textButton1, textButton2, onClick, title }: ModalProps) {
     return (
         <div className={styles.modalOverlay}>
             {loading ? <LoadingBoat />
@@ -29,13 +29,27 @@ export function Modal({onDelete, deleteIcon, voucherIcon, onVoucher, children, l
                         <div className={styles.modalHeader}>
                             <h1>{title}</h1>
                             {
-                                (deleteIcon && !voucherIcon) && <FaRegTrashCan size={22} onClick={onDelete} style={{cursor: 'pointer', color: 'red'}} />
+                                (deleteIcon && !voucherIcon) && (
+                                    <FaRegTrashCan
+                                        size={22}
+                                        onClick={onDelete}
+                                        style={{ cursor: 'pointer', color: 'var(--danger)' }}
+                                    />
+                                )
                             }
                             {
                                 (deleteIcon && voucherIcon) &&
-                                <div style={{display: 'flex', flexDirection: 'row', gap: '1rem'}}>
-                                    <FaFilePdf size={22} onClick={onVoucher} style={{cursor: 'pointer', color: '#0099DD'}} />
-                                    <FaRegTrashCan size={22} onClick={onDelete} style={{cursor: 'pointer', color: 'red'}} />
+                                <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+                                    <FaFilePdf
+                                        size={22}
+                                        onClick={onVoucher}
+                                        style={{ cursor: 'pointer', color: 'var(--blue-300)' }}
+                                    />
+                                    <FaRegTrashCan
+                                        size={22}
+                                        onClick={onDelete}
+                                        style={{ cursor: 'pointer', color: 'var(--danger)' }}
+                                    />
                                 </div>
                             }
                         </div>

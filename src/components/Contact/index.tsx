@@ -25,7 +25,7 @@ export function Contact({ id }: ContactProps) {
     }, []);
 
     const redirectToWhatsApp = () => {
-        const phoneNumber = "5581995673662";
+        const phoneNumber = "5581987486726";
         const message = encodeURIComponent("Olá, gostaria de saber mais sobre o passeio");
         const url = `https://wa.me/${phoneNumber}?text=${message}`;
         window.open(url, "_blank", "noopener,noreferrer");
@@ -40,7 +40,7 @@ export function Contact({ id }: ContactProps) {
                         <>
                             <h2>
                                 <img className={styles.inicio} src={aspaInicio} alt="aspa" />
-                                Pronto para <br/>explorar<br/>
+                                Pronto para <br />explorar<br />
                                 noronha ?
                                 <img className={styles.fim} src={aspaFim} alt="aspa" />
                             </h2>
@@ -49,7 +49,7 @@ export function Contact({ id }: ContactProps) {
                         <>
                             <h2>
                                 <img className={styles.inicio} src={aspaInicio} alt="aspa" />
-                                Pronto para explorar<br />
+                                Pronto para explorar
                                 noronha ?
                                 <img className={styles.fim} src={aspaFim} alt="aspa" />
                             </h2>
@@ -62,11 +62,11 @@ export function Contact({ id }: ContactProps) {
                 <div className={styles.contentButton}>
                     <ButtonSite onClick={redirectToWhatsApp}>
                         {
-                            width <= 768 ? 'Reserve o seu passeio' 
-                            :
-                            'Reserve agora o seu passeio'
+                            width <= 768 ? 'Reserve o seu passeio'
+                                :
+                                'Reserve agora o seu passeio'
                         }
-                        
+
                     </ButtonSite>
                 </div>
             </div>

@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Header } from "../../components/Header";
 import styles from './config.module.scss';
-import { AdditionalProps, GetAppointmentsProps, GetBoatProps } from "../../@types/interfaces/types";
+import { AdditionalProps, GetBoatProps } from "../../@types/interfaces/types";
 import { api } from "../../service/api";
 import { FaEdit } from "react-icons/fa";
 import { LoadingBoatGet } from "../../components/LoadingBoatGet";
@@ -10,34 +10,10 @@ import { Input } from "../../components/Input";
 import { ChromePicker } from 'react-color';
 import { toast } from "react-toastify";
 import { ButtonComponent } from "../../components/ButtonComponent";
-import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 
 export function Config() {
 
-    const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
-    const years = ['2024', '2025', '2026', '2027', '2028', '2029', '2030']
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const monthsChart = [
-        { value: 0, name: 'jan' },
-        { value: 1, name: 'fev' },
-        { value: 2, name: 'mar' },
-        { value: 3, name: 'abr' },
-        { value: 4, name: 'mai' },
-        { value: 5, name: 'jun' },
-        { value: 6, name: 'jul' },
-        { value: 7, name: 'ago' },
-        { value: 8, name: 'set' },
-        { value: 9, name: 'out' },
-        { value: 10, name: 'nov' },
-        { value: 11, name: 'dez' },
-    ]
-
-    const [dateActual, setDateActual] = useState<Date>(new Date());
-
-    const [month, setMonth] = useState(dateActual.getMonth());
-    const [year, setYear] = useState(dateActual.getFullYear());
-    const [boatSelected, setBoatSelected] = useState('');
 
     const [nameBoat, setNameBoat] = useState('');
     const [idBoat, setIdBoat] = useState('');
@@ -49,11 +25,9 @@ export function Config() {
     const [valueAdditional, setValueAdditional] = useState('');
 
     const [dashBoat, setDashBoat] = useState<GetBoatProps[]>([]);
-    const [dashAppointmet, setDashAppointmet] = useState<GetAppointmentsProps[]>([]);
     const [additionals, setAdditionals] = useState<AdditionalProps[]>([])
 
     const [loadingBoat, setLoadingBoat] = useState(false);
-    const [loadingAppointments, setLoadingAppointments] = useState(false);
     const [loadingAdditionals, setLoadingAdditionals] = useState(false);
     const [loadingEditBoat, setLoadingEditBoat] = useState(false);
     const [loadingAddBoat, setLoadingAddBoat] = useState(false);
@@ -74,31 +48,22 @@ export function Config() {
 
     const loadBoats = useCallback(async () => {
         setLoadingBoat(true)
-        await api.get('').then((response) => {
+        await api.get('/speedboats').then((response) => {
             setDashBoat(response.data);
-            setBoatSelected(response.data[0].id);
+            // setBoatSelected(response.data[0].id);
         }).catch(error => console.log(error)).finally(() => setLoadingBoat(false))
-    }, [])
-
-    const loadDashAppointments = useCallback(async () => {
-        setLoadingAppointments(true)
-        await api.get('').then((response) => {
-            setDashAppointmet(response.data);
-        }).catch(error => console.log(error)).finally(() => setLoadingAppointments(false))
     }, [])
 
     const loadAdditionals = useCallback(async () => {
         setLoadingAdditionals(true)
-        api.get('').then((response) => {
+        api.get('/menu').then((response) => {
             setAdditionals(response.data)
         }).catch(error => console.log(error)).finally(() => setLoadingAdditionals(false))
     }, [])
 
     useEffect(() => {
         loadBoats();
-        loadDashAppointments();
         loadAdditionals();
-        setDateActual(new Date());
 
         window.addEventListener('resize', updateScreenSize);
 
@@ -108,23 +73,10 @@ export function Config() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const quantityAppointments = useMemo(() => {
-        return dashAppointmet.filter(appointment => appointment.speedboat_id === boatSelected && Number(appointment.date.split('-')[0]) === year && Number(new Date(appointment.date).getMonth()) === month)
-    }, [dashAppointmet, boatSelected, month, year])
-
-    const totalValueAppointments = useMemo(() => {
-        let val = 0
-        quantityAppointments.map((appointment) => {
-            if (appointment.speedboat_id === boatSelected && Number(appointment.date.split('-')[0]) === year && Number(new Date(appointment.date).getMonth()) === month) {
-                val += appointment.total_value
-            }
-        })
-        return val
-    }, [quantityAppointments, boatSelected, month, year])
 
     const handleGetEditBoat = useCallback(async (id: string) => {
         setLoadingEditBoat(true)
-        await api.get(``).then((response) => {
+        await api.get(`/speedboats/${id}`).then((response) => {
             setNameBoat(response.data.name)
             setIdBoat(response.data.id)
             setColorBoat(response.data.color !== null ? { background: response.data.color } : { background: '#000000' })
@@ -142,7 +94,7 @@ export function Config() {
 
     const handleEditBoat = useCallback(async () => {
         setLoadingEditBoat(true)
-        await api.put(``, {
+        await api.put(`/speedboats`, {
             id: idBoat,
             name: nameBoat,
             color: colorBoat.background,
@@ -160,7 +112,7 @@ export function Config() {
 
     const handleGetEditAdditional = useCallback(async (id: string) => {
         setLoadingEditAdditional(true)
-        await api.get(``).then((response) => {
+        await api.get(`/menu/${id}`).then((response) => {
             setIdAdditional(response.data.id);
             setNameAdditional(response.data.name);
             setValueAdditional(`${Number(response.data.value) / 100}`);
@@ -176,7 +128,7 @@ export function Config() {
 
     const handleEditAdditional = useCallback(async () => {
         setLoadingEditAdditional(true)
-        await api.put(``, {
+        await api.put(`/menu`, {
             id: idAdditional,
             name: nameAdditional,
             value: Number(valueAdditional) * 100
@@ -196,7 +148,7 @@ export function Config() {
             return toast.error('Preencha todos os campos para adicionar uma lancha!')
         }
         setLoadingAddBoat(true)
-        await api.post('', {
+        await api.post('/speedboats', {
             name: nameBoat,
             color: colorBoat.background,
             max_people: Number(capacityBoat)
@@ -215,7 +167,7 @@ export function Config() {
             return toast.error('Preencha todos os campos para adicionar um adicional!')
         }
         setLoadingAddAdditional(true)
-        await api.post('', {
+        await api.post('/menu', {
             name: nameAdditional,
             value: Number(valueAdditional) * 100
         }).then(() => {
@@ -229,82 +181,21 @@ export function Config() {
 
     }, [nameAdditional, valueAdditional, loadAdditionals, deleteInfoAdditional])
 
-    const dataChart = useMemo(() => {
-        return monthsChart.map(month => {
-            let calc = 0
-            let val = 0
-            dashAppointmet.map(app => {
-                if (Number(app.date.split('-')[1]) === month.value + 1 && Number(app.date.split('-')[0]) === year && app.speedboat_id === dashBoat[0]?.id) {
-                    calc += 1
-                } else if (Number(app.date.split('-')[1]) === month.value + 1 && Number(app.date.split('-')[0]) === year) {
-                    val += 1
-                }
-            })
-            return {
-                name: month.name,
-                SeaFox: calc,
-                Urbana: val
-            }
-        })
-    }, [dashAppointmet, year, monthsChart, dashBoat])
+
 
     return (
         <>
             <Header />
             {
-                (loadingAppointments && loadingBoat && loadingAdditionals) ? <LoadingBoatGet /> :
+                (loadingBoat && loadingAdditionals) ? <LoadingBoatGet /> :
                     <>
                         <div className={styles.container}>
                             <h1>Configurações</h1>
                             <div>
-                                <div className={styles.contentSelections}>
-                                    <div className={styles.labelAndselections}>
-                                        <p>Mês</p>
-                                        <select value={month} onChange={(event) => setMonth(Number(event.target.value))} className={styles.selection}>
-                                            <option value="">Mês</option>
-                                            {
-                                                months.map((month, index) => (
-                                                    <option key={month} value={index}>{month}</option>
-                                                ))
-                                            }
-                                        </select>
-                                    </div>
-                                    <div className={styles.labelAndselections}>
-                                        <p>Ano</p>
-                                        <select value={year} onChange={(event) => setYear(Number(event.target.value))} className={styles.selection}>
-                                            <option value="">Ano</option>
-                                            {
-                                                years.map((year) => (
-                                                    <option key={year} value={year}>{year}</option>
-                                                ))
-                                            }
-                                        </select>
-                                    </div>
-                                    <div className={styles.labelAndselections}>
-                                        <p>Embarcação</p>
-                                        <select value={boatSelected} onChange={(event) => setBoatSelected(event.target.value)} className={styles.selectionBoat}>
-                                            <option value="">Embarcação</option>
-                                            {
-                                                dashBoat.map((boat) => (
-                                                    <option key={boat.id} value={boat.id}>{boat.name}</option>
-                                                ))
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
+
                                 <div className={styles.content}>
                                     <div className={styles.contentCards}>
-                                        <div className={styles.card}>
-                                            <p className={styles.cardTitle}>Total de agendamentos</p>
-                                            <p className={styles.cardValue}>{quantityAppointments?.length}</p>
-                                        </div>
-                                        <div className={styles.card}>
-                                            <p className={styles.cardTitle}>Faturamento total</p>
-                                            <p className={styles.cardValue}>{new Intl.NumberFormat('pt-BR', {
-                                                style: 'currency',
-                                                currency: 'BRL'
-                                            }).format(totalValueAppointments / 100)}</p>
-                                        </div>
+
 
                                         <div className={styles.grid}>
                                             <div className={styles.contentGrid}>
@@ -336,17 +227,7 @@ export function Config() {
                                         </div>
 
                                     </div>
-                                    <div className={styles.contentChart}>
-                                        <LineChart margin={screenSize.width > 1366 ? { top: 0, right: 20, left: -30, bottom: 0 } : { top: 0, right: 20, left: -20, bottom: 0 }} className={styles.chart} width={screenSize.width > 1366 ? 900 : 600} height={screenSize.width > 1366 ? 650 : 400} data={dataChart}>
-                                            <Line type="monotone" dataKey="SeaFox" stroke={dashBoat[0]?.color ? dashBoat[0]?.color : 'red'} />
-                                            <Line type="monotone" dataKey="Urbana" stroke={dashBoat[1]?.color ? dashBoat[1]?.color : 'blue'} />
-                                            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                                            <XAxis dataKey="name" />
-                                            <YAxis />
-                                            <Legend />
-                                            <Tooltip />
-                                        </LineChart>
-                                    </div>
+
                                 </div>
                             </div>
 
@@ -375,7 +256,7 @@ export function Config() {
                                     <div >
                                         <p className={styles.label}>Cor</p>
                                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                                            <ChromePicker color={colorBoat.background} onChangeComplete={(event) => setColorBoat({ background: event.hex })} styles={{ default: { picker: { width: screenSize.width > 1366 ? '100%' : '60%' } } }} />
+                                            <ChromePicker color={colorBoat.background} onChangeComplete={(event) => setColorBoat({ background: event.hex })} styles={{ default: { picker: { width: screenSize.width > 1366 ? '100%' : (screenSize.width <= 600 ? '100%' : '60%') } } }} />
                                         </div>
                                     </div>
                                 </div>
@@ -429,7 +310,7 @@ export function Config() {
                                     <div >
                                         <p className={styles.label}>Cor</p>
                                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                                            <ChromePicker color={colorBoat.background} onChangeComplete={(event) => setColorBoat({ background: event.hex })} styles={{ default: { picker: { width: screenSize.width > 1366 ? '100%' : '60%' } } }} />
+                                            <ChromePicker color={colorBoat.background} onChangeComplete={(event) => setColorBoat({ background: event.hex })} styles={{ default: { picker: { width: screenSize.width > 1366 ? '100%' : (screenSize.width <= 600 ? '100%' : '60%') } } }} />
                                         </div>
                                     </div>
                                 </div>

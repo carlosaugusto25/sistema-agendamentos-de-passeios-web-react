@@ -1,0 +1,251 @@
+.container {
+  width: 100%;
+  height: calc(100vh - 4.5rem);
+  padding: 1rem;
+
+  @media screen and (max-width: 1366px) {
+    height: calc(100vh - 3rem);
+  }
+
+  @media screen and (max-width: 600px) {
+    height: calc(100vh - 2.5rem);
+  }
+
+  h1 {
+    font-family: Lexend;
+    font-weight: 600;
+    color: var(--blue-500);
+    font-size: 1.5rem;
+  }
+
+  .content {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+.tableWrapper {
+  margin-top: 1rem;
+  width: 100%;
+  overflow-x: auto;
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* enable fixed layout for predictable column widths */
+
+    thead {
+      background-color: var(--surface-subtle);
+    }
+
+    th,
+    td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--input-border);
+      color: var(--text-primary);
+      font-family: Lexend;
+      font-size: 0.95rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap; /* ensure truncation with '...' */
+      vertical-align: middle;
+    }
+
+    tr:hover td {
+      background-color: var(--gray-100);
+    }
+
+    /* column widths (adapt as needed) */
+    th:first-child,
+    td:first-child {
+      width: 3rem;
+      text-align: center;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      color: var(--text-muted);
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 30%;
+    } /* Nome */
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 18%;
+    } /* Documento */
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 30%;
+    } /* E-mail */
+    th:nth-child(5),
+    td:nth-child(5) {
+      width: 16%;
+    } /* Telefone */
+    th:nth-child(6),
+    td:nth-child(6) {
+      width: 70px;
+    } /* Ações */
+    .editButton {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--blue-500);
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: color 0.3s;
+
+      &:hover {
+        color: var(--blue-300);
+      }
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 900px) {
+  .tableWrapper .table {
+    th,
+    td {
+      padding: 0.5rem 0.6rem;
+      font-size: 0.92rem;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .tableWrapper {
+    /* keep horizontal scroll as fallback, but try to fit with truncation */
+    overflow-x: auto;
+  }
+
+  .tableWrapper .table {
+    th,
+    td {
+      padding: 0.45rem 0.5rem;
+      font-size: 0.85rem;
+      white-space: nowrap; /* ensure ellipsis */
+    }
+
+    /* Reduce name/email widths to fit smaller screens */
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 28%;
+    }
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 30%;
+    }
+    th:nth-child(5),
+    td:nth-child(5) {
+      width: 14%;
+    }
+  }
+}
+
+/* Card layout for mobile */
+.cardList {
+  display: none; /* visible only on small screens via media query */
+}
+
+/* mobile card styles */
+@media screen and (max-width: 600px) {
+  .tableWrapper .table {
+    display: none; /* hide table on mobile */
+  }
+
+  .cardList {
+    display: block;
+    margin-top: 1rem;
+  }
+
+  .cardList .card {
+    background-color: var(--surface-card);
+    border: 1px solid var(--input-border);
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .index {
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    background: var(--surface-subtle);
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+
+  .cardName {
+    font-family: Lexend;
+    font-size: 1rem;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cardField {
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .actionsMobile {
+    margin-left: auto;
+    color: var(--blue-500);
+  }
+}
+
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.pageButton {
+  background: var(--surface-subtle);
+  border: 1px solid var(--input-border);
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  font-family: Lexend;
+  cursor: pointer;
+}
+
+.pageButton[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.activePage {
+  background: var(--blue-300);
+  color: var(--white);
+  border-color: var(--blue-300);
+}
+
+.modalContentEditClient {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

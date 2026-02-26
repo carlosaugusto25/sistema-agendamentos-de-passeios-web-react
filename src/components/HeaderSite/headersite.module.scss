@@ -106,11 +106,13 @@
 .hidden {
   transform: translateY(-100%);
   opacity: 0;
+  pointer-events: none; // Opcional: impede interação enquanto oculto
 }
 
 .visible {
   transform: translateY(0);
   opacity: 1;
+  pointer-events: all; // Opcional: permite interação
 }
 
 .none {

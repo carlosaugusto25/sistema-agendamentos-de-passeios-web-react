@@ -8,9 +8,12 @@ interface ButtonComponentProps {
     margin?: string;
 }
 
-export function ButtonComponent({onClick, text, type, width, margin}: ButtonComponentProps) {
-    return(
-        <button onClick={onClick} className={type === "create" ? styles.buttonCreate : (type === "cancel" ? styles.buttonCancel : styles.buttonDelete)} style={{width: width ? width : "100%", margin: margin ? margin : "0"}}>
+export function ButtonComponent({ onClick, text, type, width, margin }: ButtonComponentProps) {
+    const style: React.CSSProperties = { margin: margin ? margin : "0" };
+    if (width) style.width = width;
+
+    return (
+        <button onClick={onClick} className={type === "create" ? styles.buttonCreate : (type === "cancel" ? styles.buttonCancel : styles.buttonDelete)} style={style}>
             {text}
         </button>
     )

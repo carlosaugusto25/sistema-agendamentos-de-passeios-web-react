@@ -9,7 +9,9 @@
     }
 
     @media screen and (max-width: 600px) {
-        height: calc(100vh - 2.5rem);
+        height: auto;
+        padding: 0.5rem;
+        overflow-x: hidden;
     }
 
     h1 {
@@ -67,10 +69,22 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
 
+        @media screen and (max-width: 600px) {
+            grid-template-columns: 1fr;
+            display: flex;
+            flex-direction: column;
+        }
+
         .contentCards {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
+
+            @media screen and (max-width: 600px) {
+                grid-template-columns: 1fr;
+                display: flex;
+                flex-direction: column;
+            }
 
             .card {
                 border: 1px solid var(--input-border);
