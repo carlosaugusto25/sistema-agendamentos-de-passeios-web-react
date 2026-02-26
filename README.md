@@ -9,6 +9,8 @@
 
 <h3>*Código para fins didáticos, Não possui dados sensíveis.*</h3>
 
+<h2>ESSE SISTEMA PASSOU POR ATUALIZAÇÕES, CONFIRA QUAIS FORAM ACESSANDO ELE NOS MEUS PROJETOS DO LINKEDIN: https://www.linkedin.com/in/carlos-augusto-dev/details/projects/</h2>
+
 <h2>Foi construído uma Landing Page institucional responsiva para divulgar o serviço do cliente, em paralelo também foi criado sistema de agendamentos para que o cliente pudesse fazer o controle das datas de seus agendamentos de passeio, e funcionalidades como:</h2>
 
 <ul>
