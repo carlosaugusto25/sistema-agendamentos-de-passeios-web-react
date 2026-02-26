@@ -22,7 +22,7 @@
   <li>Na mesma tela, o cliente tem acesso a um gráfico que mostra a quantidade de passeios filtrado por lancha, mês e ano, assim como o montante arrecadado filtrado por mês e lancha.</li>
 </ul>
 
-<h3>Link do deploy: https://wendellpasseios.vercel.app/</h3>
+<h3>Link do deploy: https://www.wendellpasseios.com.br/</h3>
 
 <p>Segue imagens do projeto:</p>
 <img src="https://i.ibb.co/7YZDhb5/Captura-de-tela-2024-11-21-102435.png" alt="Captura-de-tela-2024-11-21-102435" border="0">
