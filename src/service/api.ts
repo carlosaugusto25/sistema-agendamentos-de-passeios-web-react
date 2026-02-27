@@ -13,7 +13,7 @@ type APIInstanceProrps = AxiosInstance & {
 };
 
 const api = axios.create({
-  baseURL: 'https://api-passeio.yazon.com.br',
+  baseURL: '',
 }) as APIInstanceProrps;
 
 let failedQueue: Array<PromiseType> = [];
@@ -71,7 +71,7 @@ api.registerInterceptTokenManager = (signOut) => {
               });
 
               resolve(api(originalRequestConfig));
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } catch (error: any) {
               failedQueue.forEach((request) => {
                 request.onFailure(error);
